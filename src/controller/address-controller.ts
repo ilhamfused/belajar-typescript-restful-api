@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { UserRequest } from "../type/user-request";
-import { CreateAddressRequest } from "../model/address-model";
+import { CreateAddressRequest, GetAddressRequest } from "../model/address-model";
 import { AddressService } from "../service/address-service";
 
 export class AddressController {
@@ -14,6 +14,22 @@ export class AddressController {
       res.status(200).json({
         data: response,
       });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  static async get(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      const request: GetAddressRequest = {
+        id: Number(req.params.addressId),
+        contact_id: Number(req.params.contactId),
+      }; 
+
+      const response = await AddressService.get(req.user!, request)
+      res.status(200).json({
+        data: response
+      })
     } catch (e) {
       next(e);
     }
