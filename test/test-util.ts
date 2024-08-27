@@ -1,4 +1,4 @@
-import { Contact, User } from "@prisma/client";
+import { Address, Contact, User } from "@prisma/client";
 import { prismaClient } from "../src/application/database";
 import bcrypt from "bcrypt";
 
@@ -70,5 +70,17 @@ export class ContactTest {
     }
 
     return contact;
+  }
+}
+
+export class AddressTest {
+  static async deleteAll() {
+    await prismaClient.address.deleteMany({
+      where: {
+        contact: {
+          username: "test",
+        },
+      },
+    });
   }
 }
